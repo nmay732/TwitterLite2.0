@@ -4,6 +4,7 @@
 var express = require('express')
   , http = require('http')  
   , path = require('path')
+  , routes = require('./routes/routes')
   , login_handler = require('./routes/login_handler');
 
 var app = express();
@@ -12,6 +13,7 @@ var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -34,8 +36,9 @@ var loginCount=0;
 //-If NOT go to the login screen to create a session
 app.get('/',function(req,res){res.redirect('/login');}); //redirect to login
 app.get ('/login' , login_handler.login);
-//app.get ('/verifylogin' , login_handler.verify);
+app.get ('/verifylogin' , login_handler.verify);
 app.get ('/logout' , login_handler.logout);
+app.get ('/dashboard' , routes.dashboard)
 
 //launch the server
 http.createServer(app).listen(app.get('port'), function(){
