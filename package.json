@@ -3,10 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "start": "node app"
   },
   "dependencies": {
     "express": "3.1.0",
+=======
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.1.1",
+>>>>>>> 196500d9095b1d7d1bd5923f551700ee1596d753
     "ejs": "*"
   }
 }
