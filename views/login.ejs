@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel='stylesheet' href='/stylesheets/style.css' />
-	<script type="text/javascript" src="/javascripts/jquery-min.js"></script>
-	<script type="text/javascript" src="/javascripts/test.js"></script>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.min.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+		<script type="text/javascript" src="/javascripts/jquery-min.js"></script>
+		
 </head>
 
 <body>
-<div id="superCont">
-<div id="mainCont">
-<div id="header"></div>
-	<div id ="login">
-<h1>Please Login </h1></br>
-    <form method="get" action="/verifylogin">
-    Username: <input type="text" name="username"/><br/>
-    Password: <input type="text" name="password"/><br/>
-    <input type="submit" value="Login"/>
+	<div class = "container">
+		<div id="header"></div>
+<div id="loginPage">		
+<h1>Please Login </h1>
+    <form class="form-signin" method="get" action="/verifylogin">
+    <input class="input-block-level tlLogin" type="text" placeholder="Username" name="username"/></br>
+    <input class="input-block-level tlLogin" type="text" placeholder="Password" name="password"/>
+  <button class="btn btn-large btn-primary" type="submit">Login</button>
 </verifylogin>
-</div>
+</form>
 </div>
 </div>
 </body>
-<div id="footer"></div>
+
 </html>
+<!-- <div class="container">
+    <form class="form-signin" method="get" action="/verifylogin">
+    	<h3 class="form-signin-heading">Please Login </h3>
+    <input type="text" class="input-block-level" placeholder="Username"/>
+    <input type="text" class="input-block-level" placeholder="Password"/>
+    <input type="submit" value="Login"/>
+</verifylogin>
+</form>
+</div>
+ -->
