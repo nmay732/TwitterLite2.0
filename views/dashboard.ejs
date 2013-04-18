@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 <head>
 <link rel='stylesheet' href='/stylesheets/style.css' />
         <link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.css">
@@ -91,3 +92,165 @@ Decision: <input type="text" name="decision"/><br/>
 </div>
 </body>
 </html>
+=======
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script type="text/javascript" src="/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/js/underscore-min.js"></script>
+    <script type="text/javascript" src="/js/backbone-min.js"></script>
+    
+    <!-- Handlebars & Templates -->
+    <script type="text/javascript" src="/js/handlebars-1.0.rc.1.js"></script>
+    <script type="text/javascript" src="/handlebars/users.handlebars.js"></script>
+  </head>
+  <body>
+      <div class="container">
+        <!--   <div id="header"></div>
+         -->  <div class="container-fluid">
+          <div class="row-fluid">
+   <div class="span9">
+    <div class="hero-unit">           
+  <h1> Welcome to User Dashboard </h1>
+  </div>
+  </div>
+  <div class="span3">
+   <div class="well">
+   <div class="sidebar-nav">   
+  <h3> Logged in as: <%= user %> </h3>
+  </div>
+  <div>
+  <h3>Followers List</h3>
+  </div>
+  <div>
+  <h3>Following List</h3>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="row">
+  <div class="span8">
+  <div class="well">
+    <h3>Send a Tweet!</h3>
+    <form id="form">
+      Tweet : <input class="input-xxlarge" tweet="tweetString" type="text"> <br>
+      <input type="submit" value="Add User">
+    </form>
+	<h4>My Twitter Feed:</h4>
+    <div id="users">
+	
+    </div>
+	</div>
+    </div>
+	<div class="span4">
+	<div class="well">
+	<h3>Followers!</h3>
+	</div>
+	</div>
+  </body>
+
+  <script type="text/javascript">
+
+  var User = Backbone.Model.extend({
+    urlRoot: '/user',
+
+  	defaults: {
+  		tweet : 'Unknown',
+  	},
+
+  	initialize: function () {
+      console.log('Created New Tweet');
+  	}
+  });
+
+  var Users = Backbone.Collection.extend({
+    model: User,
+
+    initialize: function () {
+      // Add an event handler for adding a user.  This will
+      // trigger a call to re-render the view.
+      this.on('add', function (model) {
+        console.log('Added user ' + model.get('tweetString') + ' to collection.');
+        view.render();
+      });
+
+      this.on('remove', function (model) {
+        console.log('Removed user ' + model.get('fname') + ' from collection.');
+        view.render();
+      });
+    },
+
+    setView: function (view) {
+      this.view = view;
+    }
+  });
+
+  var UsersView = Backbone.View.extend({
+    el: $('div#users'),
+
+    initialize: function () {
+    },
+
+    setModel: function (model) {
+      this.model = model;
+    },
+
+    render: function () {
+      var template = Handlebars.templates.users;
+      var html     = $(template(this.model));
+      var that     = this;
+      this.model.each(function (user) {
+        // Construct a new list item for the user:
+        var li = $('<li>' + user.get('tweetString') + ' ' + '</li>');
+
+        li.click(function (e) {
+          // Remove the user from the collection:
+          that.model.remove(user);
+          // Destroy the user - syncs with server:
+          user.destroy();
+          // Remove the user from the view:
+          $(this).remove();
+        });
+
+        // Append the list item to the generated HTML:
+        html.append(li);
+      });
+
+      // Render the view:
+      this.$el.html(html);
+    },
+  });
+
+  // Create the users collection:
+  var users = new Users();
+
+  // Create the users view:
+  var view  = new UsersView();
+
+  // Connect the model <--> view:
+  users.setView(view);
+  view.setModel(users);
+
+  $('#form').submit(function (e) {
+    console.log('clicked');
+    var tweetInput = $('input[tweet="tweetString"]');
+    var user = new User({ tweetString : tweetInput.val()});
+    user.save();
+    users.add(user);
+    tweetInput.val('');
+    return false;
+  });
+
+
+  var user1 = new User({tweetString: 'YES! its working'});
+  user1.save();
+  users.add(user1);
+
+
+  </script>
+</html>
+>>>>>>> Adding more functionality to the dashboard, you can now tweet and tit shows up on the page
