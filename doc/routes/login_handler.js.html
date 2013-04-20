@@ -47,10 +47,20 @@
 <div class="pilwrap">
   <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
 </div>
-<p>Contains all the functions requried for logging in with cookies//
-Taken from lec 17 example code//</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../lib/user&#39;</span><span class="p">);</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="cm">/** @module routes/login_handler */</span>
+<span class="cm">/** Contains all the functions requried for logging in with cookies */</span>
+
+<span class="cm">/** Taken from lec 17 example code. */</span>
+<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../lib/user&#39;</span><span class="p">);</span>
+
+
+<span class="cm">/** Records the logged in user. */</span>
+<span class="kd">var</span> <span class="nx">userids</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cm">/** A logged in &quot;database. */</span>
+<span class="kd">var</span> <span class="nx">online</span> <span class="o">=</span> <span class="p">{};</span>
+
 
 
 </pre></div>
@@ -61,41 +71,15 @@ Taken from lec 17 example code//</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
 </div>
-<p>Records the logged in user:</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">userids</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
-</div>
-<p>A logged in "database":</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">online</span> <span class="o">=</span> <span class="p">{};</span>
-
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
-</div>
-<p>The <code>flash</code> function is used to pass a message between
+<div class="dox">
+  <div class="summary"><p>The <code>flash</code> function is used to pass a message between
 request and response. This is specifically used to help
 pass messages as part of the redirect. For example, to
 pass a <code>message</code> with a value <code>v</code> to a redirected URL we
 would invoke <code>flash</code> before the redirect like so:</p>
-
-<p>flash(req, res, 'message', 'this is my message');
-   res.redirect('/user/main');</p>
+  </div>
+  <div class="body"><p>flash(req, res, 'message', 'this is my message');
+res.redirect('/user/main');</p>
 
 <p>To receive the message in the redirected route we would
 invoke <code>flash</code> like so:</p>
@@ -107,9 +91,12 @@ named <code>name</code> with the value <code>value</code>. This cookie is
 passed to the client and sent as part of the subsequent
 request as part of the redirect. We then delete the
 cookie when the redirect request is received back on
-the server-side.</p>
+the server-side.   </p>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
+
 <span class="kd">function</span> <span class="nx">flash</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
 
 </pre></div>
@@ -118,10 +105,15 @@ the server-side.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
 </div>
-<p>If <code>value</code> is not undefined we are <em>setting</em> a flash
-value (i.e., setting a cookie).</p>
+<div class="dox">
+  <div class="summary"><p>If <code>value</code> is not undefined we are <em>setting</em> a flash
+value (i.e., setting a cookie).   </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
   <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
@@ -133,10 +125,15 @@ value (i.e., setting a cookie).</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
 </div>
-<p>We return the <code>value</code> to be consistent with the
-alternative call - to retrieve the value.</p>
+<div class="dox">
+  <div class="summary"><p>We return the <code>value</code> to be consistent with the
+alternative call - to retrieve the value.    </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
@@ -149,38 +146,21 @@ alternative call - to retrieve the value.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
-<p>Grab the <code>value</code> from the cookies sent along with
-the request.</p>
+<div class="dox">
+  <div class="summary"><p>Grab the <code>value</code> from the cookies sent along with
+the request.   </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">value</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">cookies</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
-</div>
-<p>Clear the cookie in the response.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+    <span class="cm">/** Clear the cookie in the response. */</span>
     <span class="nx">res</span><span class="p">.</span><span class="nx">clearCookie</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
-</div>
-<p>Return the <code>value</code>.</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+    <span class="cm">/** Return the `value`. */</span>
     <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -226,7 +206,7 @@ the request.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
 </div>
 <p>Grab any messages being sent to use from redirect.</p>
         </td>
@@ -240,7 +220,7 @@ the request.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
 <p>TDR: redirect if logged in:</p>
         </td>
@@ -254,7 +234,7 @@ the request.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
 <p>TDR: If the user is already logged in - we redirect to the
 main application view. We must check both that the <code>userid</code>
@@ -271,7 +251,7 @@ server has been restarted.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
 </div>
 <p>TODO: pass to the dash WHICH user to display</p>
         </td>
@@ -286,7 +266,7 @@ server has been restarted.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
 </div>
 <p>Render the login view if this is a new login.
 TODO: read the authmessage</p>
@@ -321,7 +301,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>TDR: redirect if logged in:</p>
         </td>
@@ -335,7 +315,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>TDR: do the check as described in the <code>exports.login</code> function.</p>
         </td>
@@ -348,7 +328,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
 </div>
 <p>TODO: pass to the dash WHICH user to display</p>
         </td>
@@ -363,7 +343,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
 </div>
 <p>Pull the values from the form.</p>
         </td>
@@ -377,7 +357,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
 <p>Perform the user lookup.</p>
         </td>
@@ -391,7 +371,7 @@ TODO: read the authmessage</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
 </div>
 <p>If there is an error we "flash" a message to the
 redirected route <code>/user/login</code>.</p>
@@ -408,7 +388,7 @@ redirected route <code>/user/login</code>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>TDR: use cookie to record stateful connection. Here
 we record the generated userid as a cookie to be
@@ -427,7 +407,7 @@ passed back and forth between client and server.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
 </div>
 <p>Store the user in our in memory database.</p>
         </td>
@@ -440,7 +420,7 @@ passed back and forth between client and server.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
 </div>
 <p>Redirect to main.</p>
         </td>
@@ -476,7 +456,7 @@ passed back and forth between client and server.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-28" id="section-28">&#182;</a>
+  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
 </div>
 <p>TDR: handle cookies</p>
         </td>

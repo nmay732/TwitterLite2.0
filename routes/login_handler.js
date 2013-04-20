@@ -1,51 +1,53 @@
-//Contains all the functions requried for logging in with cookies//
-//Taken from lec 17 example code//
+/** @module routes/login_handler */
+/** Contains all the functions requried for logging in with cookies */
 
+/** Taken from lec 17 example code. */
 var user = require('../lib/user');
 
-// Records the logged in user:
+
+/** Records the logged in user. */
 var userids = 0;
-// A logged in "database":
+/** A logged in "database. */
 var online = {};
 
-//
-// The `flash` function is used to pass a message between
-// request and response. This is specifically used to help
-// pass messages as part of the redirect. For example, to
-// pass a `message` with a value `v` to a redirected URL we
-// would invoke `flash` before the redirect like so:
-//
-//    flash(req, res, 'message', 'this is my message');
-//    res.redirect('/user/main');
-//
-// To receive the message in the redirected route we would
-// invoke `flash` like so:
-//
-//    var message_value = flash(req, res, 'message');
-//
-// This is implemented using *cookies*. We create a cookie
-// named `name` with the value `value`. This cookie is
-// passed to the client and sent as part of the subsequent
-// request as part of the redirect. We then delete the
-// cookie when the redirect request is received back on
-// the server-side.
-//
+
+/** The `flash` function is used to pass a message between
+request and response. This is specifically used to help
+pass messages as part of the redirect. For example, to
+pass a `message` with a value `v` to a redirected URL we
+would invoke `flash` before the redirect like so:
+
+   flash(req, res, 'message', 'this is my message');
+   res.redirect('/user/main');
+
+To receive the message in the redirected route we would
+invoke `flash` like so:
+
+   var message_value = flash(req, res, 'message');
+
+This is implemented using *cookies*. We create a cookie
+named `name` with the value `value`. This cookie is
+passed to the client and sent as part of the subsequent
+request as part of the redirect. We then delete the
+cookie when the redirect request is received back on
+the server-side. */
+
 function flash(req, res, name, value) {
-  // If `value` is not undefined we are *setting* a flash
-  // value (i.e., setting a cookie).
+  /** If `value` is not undefined we are *setting* a flash
+   value (i.e., setting a cookie). */
   if (value !== undefined) {
     res.cookie(name, value);
-    // We return the `value` to be consistent with the
-    // alternative call - to retrieve the value.
+    /** We return the `value` to be consistent with the
+     alternative call - to retrieve the value.  */
     return value;
   }
   else {
-    // Grab the `value` from the cookies sent along with
-    // the request.
+    /** Grab the `value` from the cookies sent along with
+     the request. */
     value = req.cookies[name];
-    // Clear the cookie in the response.
+    /** Clear the cookie in the response. */
     res.clearCookie(name);
-    // Return the `value`.
+    /** Return the `value`. */
     return value;
   }
 }
