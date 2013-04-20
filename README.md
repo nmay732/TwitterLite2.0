@@ -14,7 +14,7 @@ CS326 project TwitterLite
 * run >node app.js
 * open a browser connect to "localhost:/3000"
 * the app will direct to login windows at the begining of the program
-
+* To log into the app, the only current user name and passord is "user" and "pass"
 
 ___________________________________________________________________
 ___________________________________________________________________

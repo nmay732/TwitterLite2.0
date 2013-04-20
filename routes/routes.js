@@ -38,5 +38,5 @@ exports.dashboard = function(req, res){
     //TODO: Get users from cookies
     
     //Until we get the flash function working we won't know what user is logged in. change it   manually here
-    res.render('dashboard.ejs', {user: 'bob', followers: followers, tweets: Tweet});
+    res.render('dashboard.ejs', {user: 'bob', title: 'Tweets'});
 }

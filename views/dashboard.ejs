@@ -1,62 +1,161 @@
-<h1> Welcome to User Dashboard </h1>
 
-  
-<h1> User: <%= user %> </h1>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-reponsive.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <script type="text/javascript" src="/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/js/underscore-min.js"></script>
+    <script type="text/javascript" src="/js/backbone-min.js"></script>
+    
+    <!-- Handlebars & Templates -->
+    <script type="text/javascript" src="/js/handlebars-1.0.rc.1.js"></script>
+    <script type="text/javascript" src="/handlebars/users.handlebars.js"></script>
+  </head>
+  <body>
+      <div class="container">
+        <!--   <div id="header"></div>
+         -->  <div class="container-fluid">
+          <div class="row-fluid">
+   <div class="span9">
+    <div class="hero-unit">           
+  <h1> Welcome to User Dashboard </h1>
+  </div>
+  </div>
+  <div class="span3">
+   <div class="well">
+   <div class="sidebar-nav">   
+  <h3> Logged in as: <%= user %> </h3>
+  </div>
+  <div>
+  <h3>Followers List</h3>
+  </div>
+  <div>
+  <h3>Following List</h3>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="row">
+  <div class="span8">
+  <div class="well">
+    <h3>Send a Tweet!</h3>
+    <form id="form">
+      Tweet : <input class="input-xxlarge" tweet="tweetString" type="text"> <br>
+      <input type="submit" value="Add User">
+    </form>
+	<h4>My Twitter Feed:</h4>
+    <div id="users">
+	
+    </div>
+	</div>
+    </div>
+	<div class="span4">
+	<div class="well">
+	<h3>Followers!</h3>
+	</div>
+	</div>
+  </body>
 
-<h2> Timeline </h2>
-<ul>
-    <% for (var i=0; i < tweets.length; i++) { %>
-        <% for (var j=0; j < followers.length; j++) { %>
-            <% if(tweets[i].username == followers[j].username && followers[j].follower == user){ %>
-                <li><%= tweets[i].username %>: <%= tweets[i].text %></li>
-            <% } %>
-        <% } %>
-    <% } %>
-</ul>
- 
-<h2> <%= user %>'s Tweets </h2>
-<ul>
-    <% for (var i=0; i < tweets.length; i++) { %>
-        <% if(tweets[i].username == user){ %>
-            <li><%= tweets[i].username %>: <%= tweets[i].text %></li>
-        <% } %>
-    <% } %>
-</ul>
+  <script type="text/javascript">
 
-<h2> Followers List </h2>
-<ul>
-    <% for (var i=0; i < followers.length; i++) { %>
-        <% if(followers[i].username == user){ %>
-            <li><%= followers[i].follower %></li>
-        <% } %>
-    <% } %>
-</ul>
+  var User = Backbone.Model.extend({
+    urlRoot: '/user',
 
-<h2> Followers Tweets History</h2> </br>
-<ul>
-    <% for (var i=0; i < tweets.length; i++) { %>
-        <li><%= tweets[i].username %>: <%= tweets[i].text %></li>
-    <% } %>
-</ul>
+  	defaults: {
+  		tweet : 'Unknown',
+  	},
 
-<h2> Following List </h2>
-<ul>
-    <% for (var i=0; i < followers.length; i++) { %>
-        <% if(followers[i].follower == user){ %>
-            <li><%= followers[i].username %></li>
-        <% } %>
-    <% } %>
-</ul>
-       
+  	initialize: function () {
+      console.log('Created New Tweet');
+  	}
+  });
 
-Please make a decision of what you want to do </br>
-1 for Tweet a message </br>
-2 for follow a friend </br>
-3 for unfollow a friend </br>
-4 for go into user profile </br>
-5 for logout </br>
+  var Users = Backbone.Collection.extend({
+    model: User,
 
-<form method="get" action="/dashboardhandler">
-Decision: <input type="text" name="decision"/><br/>
-<input type="submit" value="Enter"/>
-</dashboardhandler></br>
+    initialize: function () {
+      // Add an event handler for adding a user.  This will
+      // trigger a call to re-render the view.
+      this.on('add', function (model) {
+        console.log('Added user ' + model.get('tweetString') + ' to collection.');
+        view.render();
+      });
+
+      this.on('remove', function (model) {
+        console.log('Removed user ' + model.get('fname') + ' from collection.');
+        view.render();
+      });
+    },
+
+    setView: function (view) {
+      this.view = view;
+    }
+  });
+
+  var UsersView = Backbone.View.extend({
+    el: $('div#users'),
+
+    initialize: function () {
+    },
+
+    setModel: function (model) {
+      this.model = model;
+    },
+
+    render: function () {
+      var template = Handlebars.templates.users;
+      var html     = $(template(this.model));
+      var that     = this;
+      this.model.each(function (user) {
+        // Construct a new list item for the user:
+        var li = $('<li>' + user.get('tweetString') + ' ' + '</li>');
+
+        li.click(function (e) {
+          // Remove the user from the collection:
+          that.model.remove(user);
+          // Destroy the user - syncs with server:
+          user.destroy();
+          // Remove the user from the view:
+          $(this).remove();
+        });
+
+        // Append the list item to the generated HTML:
+        html.append(li);
+      });
+
+      // Render the view:
+      this.$el.html(html);
+    },
+  });
+
+  // Create the users collection:
+  var users = new Users();
+
+  // Create the users view:
+  var view  = new UsersView();
+
+  // Connect the model <--> view:
+  users.setView(view);
+  view.setModel(users);
+
+  $('#form').submit(function (e) {
+    console.log('clicked');
+    var tweetInput = $('input[tweet="tweetString"]');
+    var user = new User({ tweetString : tweetInput.val()});
+    user.save();
+    users.add(user);
+    tweetInput.val('');
+    return false;
+  });
+
+
+  var user1 = new User({tweetString: 'YES! its working'});
+  user1.save();
+  users.add(user1);
+
+
+  </script>
+</html>

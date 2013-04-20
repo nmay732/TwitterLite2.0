@@ -120,6 +120,27 @@ exports.auth = function(req, res) {
   }
 };
 
+// ## verify
+// Queries the database to check for completeness
+// TODO: Is this function even necessary???
+exports.verify = function(req, res){
+    var username=req.query.username;
+    var password=req.query.password;
+    var auth = user.lookup(username, password, function(err, obj){
+        if(err != undefined){
+            console.log('failed login attempt')
+            //TODO: Set flash to notify login page there was a failed attempt
+            res.redirect('/login'); 
+        }
+        else{
+            console.log("Login Success for username " + user);
+            //TODO: Set cookie here?
+            //res.cookie('session_id', getCookieVal(), { maxAge: 900000, httpOnly: true });
+            res.redirect('/dashboard');
+        }
+    });
+}
+
 // ## logout
 // Deletes user info & cookies - then redirects to login.
 exports.logout = function(req, res) {
